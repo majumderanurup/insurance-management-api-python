@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 
 from sqlalchemy.orm import Session
@@ -8,6 +9,9 @@ from app.exceptions.customer import (
 )
 from app.models.customer import Customer
 from app.repositories.customer_repository import CustomerRepository
+
+
+logger = logging.getLogger(__name__)
 
 
 class CustomerService:
@@ -21,12 +25,19 @@ class CustomerService:
         self.db = db
 
     def get_customers(self):
+        logger.info("Fetching all customers")
         return self.repository.get_all()
 
     def get_customer(self, customer_id: int):
+        logger.info("Fetching customer with id: %s", customer_id)
+
         customer = self.repository.get_by_id(customer_id)
 
         if customer is None:
+            logger.warning(
+                "Customer not found: %s",
+                customer_id,
+            )
             raise CustomerNotFoundException(customer_id)
 
         return customer
@@ -38,9 +49,15 @@ class CustomerService:
         date_of_birth: date,
     ) -> Customer:
 
+        logger.info("Creating customer with email: %s", email)
+
         existing_customer = self.repository.get_by_email(email)
 
         if existing_customer is not None:
+            logger.warning(
+                "Customer creation failed: email already exists: %s",
+                email,
+            )
             raise CustomerAlreadyExistsException(email)
 
         customer = Customer(
@@ -53,9 +70,20 @@ class CustomerService:
             customer = self.repository.create(customer)
             self.db.commit()
             self.db.refresh(customer)
+
+            logger.info(
+                "Customer created successfully with id: %s",
+                customer.id,
+            )
+
             return customer
+
         except Exception:
             self.db.rollback()
+            logger.exception(
+                "Failed to create customer with email: %s",
+                email,
+            )
             raise
 
     def update_customer(
@@ -66,17 +94,32 @@ class CustomerService:
         date_of_birth: date,
     ) -> Customer:
 
-        customer = self.repository.get_by_id(customer_id)
-
-        if customer is None:
-            raise CustomerNotFoundException(customer_id)
-
-        existing_customer = self.repository.get_by_email_excluding_customer(
-            email,
+        logger.info(
+            "Updating customer with id: %s",
             customer_id,
         )
 
+        customer = self.repository.get_by_id(customer_id)
+
+        if customer is None:
+            logger.warning(
+                "Customer not found: %s",
+                customer_id,
+            )
+            raise CustomerNotFoundException(customer_id)
+
+        existing_customer = (
+            self.repository.get_by_email_excluding_customer(
+                email,
+                customer_id,
+            )
+        )
+
         if existing_customer is not None:
+            logger.warning(
+                "Customer update failed: email already exists: %s",
+                email,
+            )
             raise CustomerAlreadyExistsException(email)
 
         customer.name = name
@@ -87,21 +130,52 @@ class CustomerService:
             self.repository.update(customer)
             self.db.commit()
             self.db.refresh(customer)
+
+            logger.info(
+                "Customer updated successfully with id: %s",
+                customer_id,
+            )
+
             return customer
+
         except Exception:
             self.db.rollback()
+            logger.exception(
+                "Failed to update customer with id: %s",
+                customer_id,
+            )
             raise
 
     def delete_customer(self, customer_id: int) -> bool:
+        logger.info(
+            "Deleting customer with id: %s",
+            customer_id,
+        )
+
         customer = self.repository.get_by_id(customer_id)
 
         if customer is None:
+            logger.warning(
+                "Customer not found: %s",
+                customer_id,
+            )
             raise CustomerNotFoundException(customer_id)
 
         try:
             self.repository.delete(customer)
             self.db.commit()
+
+            logger.info(
+                "Customer deleted successfully with id: %s",
+                customer_id,
+            )
+
             return True
+
         except Exception:
             self.db.rollback()
+            logger.exception(
+                "Failed to delete customer with id: %s",
+                customer_id,
+            )
             raise
