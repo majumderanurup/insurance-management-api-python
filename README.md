@@ -1,17 +1,16 @@
-# 01 — Basic `uv` Setup & Project Foundation
+# 02 — Health Check Route
 
 ## Overview
 
-Set up the initial **Insurance Management API** using `uv` and FastAPI.
+Added a dedicated health check endpoint using a FastAPI router.
 
 ## What We Did
 
-- Initialized the project with `uv`
-- Added FastAPI and Uvicorn
-- Created a minimal FastAPI application
-- Added `GET /` root endpoint
-- Added basic `.gitignore`
-- Verified Swagger documentation
+- Removed the default `GET /` route
+- Created `app/routers/health.py`
+- Added `GET /health`
+- Registered the health router in `main.py`
+- Added `Health` Swagger tag at router level
 
 ## Run
 
@@ -19,10 +18,10 @@ Set up the initial **Insurance Management API** using `uv` and FastAPI.
 uv run uvicorn app.main:app --reload
 ```
 
-API: `http://127.0.0.1:8000`
+Health: `http://127.0.0.1:8000/health`
 
 Swagger: `http://127.0.0.1:8000/docs`
 
 ## Next
 
-**02 — Health Check Route**
+**03 — Customer Route — Mock Response**
