@@ -1,16 +1,14 @@
 from fastapi import APIRouter
 
+from app.services.customer_service import CustomerService
+
 router = APIRouter(
     tags=["Customer"]
 )
 
+customer_service = CustomerService()
+
 
 @router.get("/customers")
 def get_customers():
-    return [
-        {
-            "id": 1,
-            "name": "John Doe",
-            "email": "john@example.com",
-        }
-    ]
+    return customer_service.get_customers()
