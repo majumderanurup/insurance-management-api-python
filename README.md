@@ -1,17 +1,18 @@
-# 09 — API Schemas — Input & Output
+# 10 — Pydantic Validation & API Input Rules
 
 ## Overview
 
-Introduced Pydantic schemas to define API request and response structures.
+Added Pydantic validation and input rules for Customer API requests.
 
 ## What We Did
 
-- Created Customer request schema
-- Created Customer response schema
-- Changed POST `/customers` to accept JSON request body
-- Changed PUT `/customers/{customer_id}` to accept JSON request body
-- Added response models to Customer endpoints
-- Separated API schemas from the database model
+- Added Customer name validation
+- Added email format validation
+- Added email normalization
+- Added whitespace trimming for customer name
+- Added date of birth validation
+- Prevented future dates of birth
+- Added custom Pydantic field validators
 
 ## Flow
 
@@ -20,19 +21,15 @@ JSON Request
       ↓
 CustomerRequest
       ↓
+Pydantic Validation
+      ↓
+Input Normalization
+      ↓
 Customer Router
       ↓
 CustomerService
-      ↓
-CustomerRepository
-      ↓
-SQLAlchemy
-      ↓
-CustomerResponse
-      ↓
-JSON Response
 ```
 
 ## Next
 
-**10 — Pydantic Validation & API Input Rules**
+**11 — Service and Database-Level Business Rules**
