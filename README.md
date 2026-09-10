@@ -1,34 +1,38 @@
-# 08 — Customer CRUD
+# 09 — API Schemas — Input & Output
 
 ## Overview
 
-Added full Customer CRUD using the database, repository, service, and transaction layers.
+Introduced Pydantic schemas to define API request and response structures.
 
 ## What We Did
 
-- Added `GET /customers`
-- Added `GET /customers/{customer_id}`
-- Added `POST /customers`
-- Added `PUT /customers/{customer_id}`
-- Added `DELETE /customers/{customer_id}`
-- Added Customer date of birth
-- Added Customer Repository CRUD operations
-- Added transaction handling in `CustomerService`
+- Created Customer request schema
+- Created Customer response schema
+- Changed POST `/customers` to accept JSON request body
+- Changed PUT `/customers/{customer_id}` to accept JSON request body
+- Added response models to Customer endpoints
+- Separated API schemas from the database model
 
 ## Flow
 
 ```text
+JSON Request
+      ↓
+CustomerRequest
+      ↓
 Customer Router
       ↓
 CustomerService
       ↓
 CustomerRepository
       ↓
-SQLAlchemy Session
+SQLAlchemy
       ↓
-SQLite
+CustomerResponse
+      ↓
+JSON Response
 ```
 
 ## Next
 
-**09 — API Schemas — Input & Output**
+**10 — Pydantic Validation & API Input Rules**

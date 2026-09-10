@@ -1,8 +1,7 @@
-from datetime import date
-
 from fastapi import APIRouter, Depends
 
 from app.dependencies import get_customer_service
+from app.schemas.customer import CustomerRequest, CustomerResponse
 from app.services.customer_service import CustomerService
 
 
@@ -11,14 +10,14 @@ router = APIRouter(
 )
 
 
-@router.get("/customers")
+@router.get("/customers", response_model=list[CustomerResponse])
 def get_customers(
     customer_service: CustomerService = Depends(get_customer_service),
 ):
     return customer_service.get_customers()
 
 
-@router.get("/customers/{customer_id}")
+@router.get("/customers/{customer_id}", response_model=CustomerResponse)
 def get_customer(
     customer_id: int,
     customer_service: CustomerService = Depends(get_customer_service),
@@ -26,33 +25,29 @@ def get_customer(
     return customer_service.get_customer(customer_id)
 
 
-@router.post("/customers")
+@router.post("/customers", response_model=CustomerResponse)
 def create_customer(
-    name: str,
-    email: str,
-    date_of_birth: date,
+    customer: CustomerRequest,
     customer_service: CustomerService = Depends(get_customer_service),
 ):
     return customer_service.create_customer(
-        name=name,
-        email=email,
-        date_of_birth=date_of_birth,
+        name=customer.name,
+        email=customer.email,
+        date_of_birth=customer.date_of_birth,
     )
 
 
-@router.put("/customers/{customer_id}")
+@router.put("/customers/{customer_id}", response_model=CustomerResponse)
 def update_customer(
     customer_id: int,
-    name: str,
-    email: str,
-    date_of_birth: date,
+    customer: CustomerRequest,
     customer_service: CustomerService = Depends(get_customer_service),
 ):
     return customer_service.update_customer(
         customer_id=customer_id,
-        name=name,
-        email=email,
-        date_of_birth=date_of_birth,
+        name=customer.name,
+        email=customer.email,
+        date_of_birth=customer.date_of_birth,
     )
 
 
