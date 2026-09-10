@@ -1,41 +1,31 @@
-# 11 — Service and Database-Level Business Rules
+# 12 — Application Logging
 
 ## Overview
 
-Added business rules, application exceptions, and centralized exception handling for Customer operations.
+Introduced application logging with console and file output.
 
 ## What We Did
 
-- Added customer email uniqueness business rule
-- Added customer existence validation
-- Added application exception hierarchy
-- Added common application exception handler
-- Added `409 Conflict` for duplicate customers
-- Added `404 Not Found` for missing customers
-- Added database uniqueness constraint as a final safeguard
+- Added centralized logging configuration
+- Added console logging
+- Added file logging
+- Created `logs/app.log`
+- Added `logs/` to `.gitignore`
+- Added application logs to Customer operations
+- Added `INFO`, `WARNING`, and exception logging
 
 ## Flow
 
 ```text
-Customer Router
+Application
       ↓
-CustomerService
+Python Logging
       ↓
-Business Rules
-      ↓
-CustomerRepository
-      ↓
-SQLAlchemy
-      ↓
-SQLite
-
-Business Exception
-      ↓
-Common Exception Handler
-      ↓
-HTTP Response
+ ┌────┴────┐
+ ↓         ↓
+Console   logs/app.log
 ```
 
 ## Next
 
-**12 — Application Logging**
+**13 — Correlation and Request IDs**

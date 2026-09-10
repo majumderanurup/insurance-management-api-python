@@ -7,9 +7,12 @@ from app.exceptions.customer import AppException
 from app.handlers.exceptions import application_exception_handler
 from app.routers.customer import router as customer_router
 from app.routers.health import router as health_router
+from app.core.logging import configure_logging
 
 
 Base.metadata.create_all(bind=engine)
+
+configure_logging()
 
 app = FastAPI(
     title=settings.app_name,
