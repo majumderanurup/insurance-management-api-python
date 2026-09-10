@@ -1,27 +1,22 @@
-# 03 — Customer Route — Mock Response
+# 04 — Introduce Service Layer — Simple Object
 
 ## Overview
 
-Added the Customer router with a simple mock customer response.
+Introduced the Customer Service layer to separate application logic from the API router.
 
 ## What We Did
 
-- Created `customer.py` router
-- Added `GET /customers`
-- Added mock customer data
-- Registered Customer router in `main.py`
-- Added `Customer` Swagger tag
+- Created `CustomerService`
+- Moved mock customer data into the service
+- Updated Customer router to use the service
+- Kept the response behavior unchanged
 
-## Run
+## Flow
 
-```bash
-uv run uvicorn app.main:app --reload
+```text
+Customer Router → CustomerService → Mock Data
 ```
-
-Customers: `http://127.0.0.1:8000/customers`
-
-Swagger: `http://127.0.0.1:8000/docs`
 
 ## Next
 
-**04 — Introduce Service Layer — Simple Object**
+**05 — Dependency Injection — Service Layer**
