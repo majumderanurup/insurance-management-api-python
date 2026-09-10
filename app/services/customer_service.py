@@ -1,5 +1,11 @@
 from datetime import date
 
+from sqlalchemy.orm import Session
+
+from app.exceptions.customer import (
+    CustomerAlreadyExistsException,
+    CustomerNotFoundException,
+)
 from app.models.customer import Customer
 from app.repositories.customer_repository import CustomerRepository
 
@@ -9,7 +15,7 @@ class CustomerService:
     def __init__(
         self,
         repository: CustomerRepository,
-        db,
+        db: Session,
     ):
         self.repository = repository
         self.db = db
@@ -18,7 +24,12 @@ class CustomerService:
         return self.repository.get_all()
 
     def get_customer(self, customer_id: int):
-        return self.repository.get_by_id(customer_id)
+        customer = self.repository.get_by_id(customer_id)
+
+        if customer is None:
+            raise CustomerNotFoundException(customer_id)
+
+        return customer
 
     def create_customer(
         self,
@@ -26,6 +37,12 @@ class CustomerService:
         email: str,
         date_of_birth: date,
     ) -> Customer:
+
+        existing_customer = self.repository.get_by_email(email)
+
+        if existing_customer is not None:
+            raise CustomerAlreadyExistsException(email)
+
         customer = Customer(
             name=name,
             email=email,
@@ -47,11 +64,20 @@ class CustomerService:
         name: str,
         email: str,
         date_of_birth: date,
-    ) -> Customer | None:
+    ) -> Customer:
+
         customer = self.repository.get_by_id(customer_id)
 
         if customer is None:
-            return None
+            raise CustomerNotFoundException(customer_id)
+
+        existing_customer = self.repository.get_by_email_excluding_customer(
+            email,
+            customer_id,
+        )
+
+        if existing_customer is not None:
+            raise CustomerAlreadyExistsException(email)
 
         customer.name = name
         customer.email = email
@@ -70,7 +96,7 @@ class CustomerService:
         customer = self.repository.get_by_id(customer_id)
 
         if customer is None:
-            return False
+            raise CustomerNotFoundException(customer_id)
 
         try:
             self.repository.delete(customer)

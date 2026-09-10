@@ -1,35 +1,41 @@
-# 10 — Pydantic Validation & API Input Rules
+# 11 — Service and Database-Level Business Rules
 
 ## Overview
 
-Added Pydantic validation and input rules for Customer API requests.
+Added business rules, application exceptions, and centralized exception handling for Customer operations.
 
 ## What We Did
 
-- Added Customer name validation
-- Added email format validation
-- Added email normalization
-- Added whitespace trimming for customer name
-- Added date of birth validation
-- Prevented future dates of birth
-- Added custom Pydantic field validators
+- Added customer email uniqueness business rule
+- Added customer existence validation
+- Added application exception hierarchy
+- Added common application exception handler
+- Added `409 Conflict` for duplicate customers
+- Added `404 Not Found` for missing customers
+- Added database uniqueness constraint as a final safeguard
 
 ## Flow
 
 ```text
-JSON Request
-      ↓
-CustomerRequest
-      ↓
-Pydantic Validation
-      ↓
-Input Normalization
-      ↓
 Customer Router
       ↓
 CustomerService
+      ↓
+Business Rules
+      ↓
+CustomerRepository
+      ↓
+SQLAlchemy
+      ↓
+SQLite
+
+Business Exception
+      ↓
+Common Exception Handler
+      ↓
+HTTP Response
 ```
 
 ## Next
 
-**11 — Service and Database-Level Business Rules**
+**12 — Application Logging**

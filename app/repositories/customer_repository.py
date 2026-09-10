@@ -18,6 +18,27 @@ class CustomerRepository:
             .first()
         )
 
+    def get_by_email(self, email: str) -> Customer | None:
+        return (
+            self.db.query(Customer)
+            .filter(Customer.email == email)
+            .first()
+        )
+
+    def get_by_email_excluding_customer(
+        self,
+        email: str,
+        customer_id: int,
+    ) -> Customer | None:
+        return (
+            self.db.query(Customer)
+            .filter(
+                Customer.email == email,
+                Customer.id != customer_id,
+            )
+            .first()
+        )
+
     def create(self, customer: Customer) -> Customer:
         self.db.add(customer)
         self.db.flush()
