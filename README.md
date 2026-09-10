@@ -1,26 +1,18 @@
-# 05 — Dependency Injection — Service Layer
+# 06 — Environment Configuration
 
 ## Overview
 
-Introduced FastAPI Dependency Injection for the Customer Service.
+Introduced environment-based application configuration using `.env` and `pydantic-settings`.
 
 ## What We Did
 
-- Created `app/dependencies.py`
-- Added `get_customer_service()`
-- Used `Depends()` in the Customer router
-- Removed manual service instantiation
-
-## Flow
-
-```text
-Customer Router
-      ↓ Depends()
-CustomerService
-      ↓
-Mock Data
-```
+- Added `pydantic-settings`
+- Created `.env` for local configuration
+- Added `.env.example` as a configuration template
+- Added `.env` to `.gitignore`
+- Created `Settings` configuration class
+- Used settings for FastAPI application metadata
 
 ## Next
 
-**06 — Environment Configuration**
+**07 — Database Layer — Real Responses**
