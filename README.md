@@ -1,22 +1,26 @@
-# 04 — Introduce Service Layer — Simple Object
+# 05 — Dependency Injection — Service Layer
 
 ## Overview
 
-Introduced the Customer Service layer to separate application logic from the API router.
+Introduced FastAPI Dependency Injection for the Customer Service.
 
 ## What We Did
 
-- Created `CustomerService`
-- Moved mock customer data into the service
-- Updated Customer router to use the service
-- Kept the response behavior unchanged
+- Created `app/dependencies.py`
+- Added `get_customer_service()`
+- Used `Depends()` in the Customer router
+- Removed manual service instantiation
 
 ## Flow
 
 ```text
-Customer Router → CustomerService → Mock Data
+Customer Router
+      ↓ Depends()
+CustomerService
+      ↓
+Mock Data
 ```
 
 ## Next
 
-**05 — Dependency Injection — Service Layer**
+**06 — Environment Configuration**
