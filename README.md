@@ -1,18 +1,34 @@
-# 06 — Environment Configuration
+# 07 — Database Layer — Real Responses
 
 ## Overview
 
-Introduced environment-based application configuration using `.env` and `pydantic-settings`.
+Introduced the database layer using SQLite and SQLAlchemy, and replaced the Customer mock response with real database data.
 
 ## What We Did
 
-- Added `pydantic-settings`
-- Created `.env` for local configuration
-- Added `.env.example` as a configuration template
-- Added `.env` to `.gitignore`
-- Created `Settings` configuration class
-- Used settings for FastAPI application metadata
+- Added SQLAlchemy
+- Added SQLite database configuration
+- Created SQLAlchemy `Base`, engine and session
+- Created Customer model
+- Added database table creation at application startup
+- Added Customer Repository
+- Injected repository through the service layer
+- Changed `GET /customers` to return database data
+
+## Flow
+
+```text
+Customer Router
+      ↓
+CustomerService
+      ↓
+CustomerRepository
+      ↓
+SQLAlchemy Session
+      ↓
+SQLite
+```
 
 ## Next
 
-**07 — Database Layer — Real Responses**
+**08 — API Schemas — Input & Output**
