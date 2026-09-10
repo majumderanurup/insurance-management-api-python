@@ -14,5 +14,6 @@ def get_customer_repository(
 
 def get_customer_service(
     repository: CustomerRepository = Depends(get_customer_repository),
+    db: Session = Depends(get_db),
 ) -> CustomerService:
-    return CustomerService(repository)
+    return CustomerService(repository, db)
