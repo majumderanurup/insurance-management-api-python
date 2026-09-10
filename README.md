@@ -1,16 +1,16 @@
-# 02 — Health Check Route
+# 03 — Customer Route — Mock Response
 
 ## Overview
 
-Added a dedicated health check endpoint using a FastAPI router.
+Added the Customer router with a simple mock customer response.
 
 ## What We Did
 
-- Removed the default `GET /` route
-- Created `app/routers/health.py`
-- Added `GET /health`
-- Registered the health router in `main.py`
-- Added `Health` Swagger tag at router level
+- Created `customer.py` router
+- Added `GET /customers`
+- Added mock customer data
+- Registered Customer router in `main.py`
+- Added `Customer` Swagger tag
 
 ## Run
 
@@ -18,10 +18,10 @@ Added a dedicated health check endpoint using a FastAPI router.
 uv run uvicorn app.main:app --reload
 ```
 
-Health: `http://127.0.0.1:8000/health`
+Customers: `http://127.0.0.1:8000/customers`
 
 Swagger: `http://127.0.0.1:8000/docs`
 
 ## Next
 
-**03 — Customer Route — Mock Response**
+**04 — Introduce Service Layer — Simple Object**
