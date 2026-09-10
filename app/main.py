@@ -3,17 +3,22 @@ from fastapi import FastAPI
 from app.core.config import settings
 from app.db.base import Base
 from app.db.database import engine
-from app.models.customer import Customer
+from app.exceptions.customer import AppException
+from app.handlers.exceptions import application_exception_handler
 from app.routers.customer import router as customer_router
 from app.routers.health import router as health_router
 
 
 Base.metadata.create_all(bind=engine)
 
-
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
+)
+
+app.add_exception_handler(
+    AppException,
+    application_exception_handler,
 )
 
 app.include_router(health_router)
