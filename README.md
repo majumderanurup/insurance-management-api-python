@@ -1,19 +1,19 @@
-# 07 — Database Layer — Real Responses
+# 08 — Customer CRUD
 
 ## Overview
 
-Introduced the database layer using SQLite and SQLAlchemy, and replaced the Customer mock response with real database data.
+Added full Customer CRUD using the database, repository, service, and transaction layers.
 
 ## What We Did
 
-- Added SQLAlchemy
-- Added SQLite database configuration
-- Created SQLAlchemy `Base`, engine and session
-- Created Customer model
-- Added database table creation at application startup
-- Added Customer Repository
-- Injected repository through the service layer
-- Changed `GET /customers` to return database data
+- Added `GET /customers`
+- Added `GET /customers/{customer_id}`
+- Added `POST /customers`
+- Added `PUT /customers/{customer_id}`
+- Added `DELETE /customers/{customer_id}`
+- Added Customer date of birth
+- Added Customer Repository CRUD operations
+- Added transaction handling in `CustomerService`
 
 ## Flow
 
@@ -31,4 +31,4 @@ SQLite
 
 ## Next
 
-**08 — API Schemas — Input & Output**
+**09 — API Schemas — Input & Output**
