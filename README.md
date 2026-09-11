@@ -1,31 +1,36 @@
-# 12 — Application Logging
+# 13 — Correlation and Request IDs
 
 ## Overview
 
-Introduced application logging with console and file output.
+Added request-level correlation IDs to trace requests across application and database logs.
 
 ## What We Did
 
-- Added centralized logging configuration
-- Added console logging
-- Added file logging
-- Created `logs/app.log`
-- Added `logs/` to `.gitignore`
-- Added application logs to Customer operations
-- Added `INFO`, `WARNING`, and exception logging
+- Added request ID middleware
+- Generated a unique UUID for each request
+- Propagated request ID using `ContextVar`
+- Added request ID to application logs
+- Added request ID to SQLAlchemy logs
+- Added `X-Request-ID` response header
+- Added request ID to application error responses
+- Added console and file log correlation
 
 ## Flow
 
 ```text
-Application
+HTTP Request
       ↓
-Python Logging
+Request ID Middleware
       ↓
- ┌────┴────┐
- ↓         ↓
-Console   logs/app.log
+ContextVar
+      ↓
+Router / Service / Repository
+      ↓
+Application + Database Logs
+      ↓
+Console + app.log
 ```
 
 ## Next
 
-**13 — Correlation and Request IDs**
+**14 — Product CRUD**
