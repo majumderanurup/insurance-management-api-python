@@ -1,6 +1,4 @@
-class AppException(Exception):
-    status_code = 500
-
+from app.exceptions.base import AppException
 
 class CustomerAlreadyExistsException(AppException):
     status_code = 409
@@ -8,7 +6,6 @@ class CustomerAlreadyExistsException(AppException):
     def __init__(self, email: str):
         self.email = email
         super().__init__(f"Customer with email '{email}' already exists")
-
 
 class CustomerNotFoundException(AppException):
     status_code = 404

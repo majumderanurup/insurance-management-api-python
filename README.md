@@ -1,35 +1,36 @@
-# 14 — Product CRUD
+# 15 — Business Rules for Product
 
 ## Overview
 
-Added Insurance Product CRUD using the database, repository, service, and API schema layers.
+Added Product field validation and service-level business rules.
 
 ## What We Did
 
-- Added Product model
-- Added Product type enum
-- Added product age eligibility fields
-- Added product sum assured fields
-- Added Product Repository
-- Added Product Service
-- Added Product API schemas
-- Added Product CRUD endpoints
-- Registered Product dependencies and router
+- Added Product field validation using Pydantic
+- Added common application exception base
+- Added Product business rule exception
+- Added entry age range validation
+- Added sum assured range validation
+- Added service-level business rule validation
 
 ## Flow
 
 ```text
-Product Router
+Product Request
+      ↓
+Pydantic Validation
       ↓
 ProductService
       ↓
+Business Rules
+      ↓
 ProductRepository
       ↓
-SQLAlchemy Session
+SQLAlchemy
       ↓
 SQLite
 ```
 
 ## Next
 
-**15 — Business Rules for Product**
+**16 — Policy CRUD**
