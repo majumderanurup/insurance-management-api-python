@@ -1,36 +1,38 @@
-# 15 — Business Rules for Product
+# 16 — Policy CRUD
 
 ## Overview
 
-Added Product field validation and service-level business rules.
+Added Policy CRUD with customer/product relationships, reusable dependents, and auto-generated policy numbers.
 
 ## What We Did
 
-- Added Product field validation using Pydantic
-- Added common application exception base
-- Added Product business rule exception
-- Added entry age range validation
-- Added sum assured range validation
-- Added service-level business rule validation
+- Added Policy model
+- Added PolicyStatus enum
+- Added Dependent model
+- Added Policy ↔ Dependent many-to-many relationship
+- Added PolicyDependent association table
+- Added Policy Repository
+- Added Dependent Repository
+- Added Policy Service
+- Added Policy API schemas
+- Added Policy CRUD endpoints
+- Added auto-generated policy numbers
+- Added Policy dependencies
 
 ## Flow
 
 ```text
-Product Request
+Policy Router
       ↓
-Pydantic Validation
+PolicyService
       ↓
-ProductService
+PolicyRepository
       ↓
-Business Rules
-      ↓
-ProductRepository
-      ↓
-SQLAlchemy
+SQLAlchemy Session
       ↓
 SQLite
 ```
 
 ## Next
 
-**16 — Policy CRUD**
+**17 — Premium Calculation Service**
