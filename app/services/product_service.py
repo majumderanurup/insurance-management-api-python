@@ -3,6 +3,7 @@ from decimal import Decimal
 
 from sqlalchemy.orm import Session
 
+from app.exceptions.product import ProductBusinessRuleException
 from app.models.product import Product, ProductType
 from app.repositories.product_repository import ProductRepository
 
@@ -20,8 +21,27 @@ class ProductService:
         self.repository = repository
         self.db = db
 
+    def _validate_product_rules(
+        self,
+        min_entry_age: int,
+        max_entry_age: int,
+        min_sum_assured: Decimal,
+        max_sum_assured: Decimal,
+    ) -> None:
+
+        if min_entry_age > max_entry_age:
+            raise ProductBusinessRuleException(
+                "Minimum entry age cannot be greater than maximum entry age"
+            )
+
+        if min_sum_assured > max_sum_assured:
+            raise ProductBusinessRuleException(
+                "Minimum sum assured cannot be greater than maximum sum assured"
+            )
+
     def get_products(self) -> list[Product]:
         logger.info("Fetching all products")
+
         return self.repository.get_all()
 
     def get_product(self, product_id: int) -> Product | None:
@@ -45,6 +65,13 @@ class ProductService:
     ) -> Product:
 
         logger.info("Creating product: %s", name)
+
+        self._validate_product_rules(
+            min_entry_age=min_entry_age,
+            max_entry_age=max_entry_age,
+            min_sum_assured=min_sum_assured,
+            max_sum_assured=max_sum_assured,
+        )
 
         product = Product(
             name=name,
@@ -102,6 +129,13 @@ class ProductService:
 
         if product is None:
             return None
+
+        self._validate_product_rules(
+            min_entry_age=min_entry_age,
+            max_entry_age=max_entry_age,
+            min_sum_assured=min_sum_assured,
+            max_sum_assured=max_sum_assured,
+        )
 
         product.name = name
         product.description = description
