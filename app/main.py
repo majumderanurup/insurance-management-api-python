@@ -7,6 +7,7 @@ from app.exceptions.customer import AppException
 from app.handlers.exceptions import application_exception_handler
 from app.routers.customer import router as customer_router
 from app.routers.health import router as health_router
+from app.routers.product import router as product_router
 from app.core.logging import configure_logging
 from app.middleware.request_id import request_id_middleware
 
@@ -29,3 +30,4 @@ app.middleware("http")(request_id_middleware)
 
 app.include_router(health_router)
 app.include_router(customer_router)
+app.include_router(product_router)

@@ -1,36 +1,35 @@
-# 13 — Correlation and Request IDs
+# 14 — Product CRUD
 
 ## Overview
 
-Added request-level correlation IDs to trace requests across application and database logs.
+Added Insurance Product CRUD using the database, repository, service, and API schema layers.
 
 ## What We Did
 
-- Added request ID middleware
-- Generated a unique UUID for each request
-- Propagated request ID using `ContextVar`
-- Added request ID to application logs
-- Added request ID to SQLAlchemy logs
-- Added `X-Request-ID` response header
-- Added request ID to application error responses
-- Added console and file log correlation
+- Added Product model
+- Added Product type enum
+- Added product age eligibility fields
+- Added product sum assured fields
+- Added Product Repository
+- Added Product Service
+- Added Product API schemas
+- Added Product CRUD endpoints
+- Registered Product dependencies and router
 
 ## Flow
 
 ```text
-HTTP Request
+Product Router
       ↓
-Request ID Middleware
+ProductService
       ↓
-ContextVar
+ProductRepository
       ↓
-Router / Service / Repository
+SQLAlchemy Session
       ↓
-Application + Database Logs
-      ↓
-Console + app.log
+SQLite
 ```
 
 ## Next
 
-**14 — Product CRUD**
+**15 — Business Rules for Product**
